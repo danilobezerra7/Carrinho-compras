@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carinho</title>
+
+    <!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+     
+
+<style>
+       
+    .tabela{
+
+        font-family: Arial, Helvetica, ;
+        font-size: 16px;
+        text-align: center;
+        width: 70%;
+        border: solid 0.1em;
+        
+       
+           
+
+    }
+</style>
+</head>
+<body>
+
+<div id = "lista">
+    <h1>{{message}}</h1>
+  
+   
+
+       <p>PRODUTO <input v-model = "lista.nome" placeholder="D igite o produto"></l>
+
+       <p>QUANTIDADE <input type="number" id = "qt" v-model ="lista.quantidade" placeholder="Digite a quantidade"></p>
+
+       <p>PREÇO <input type="number" id= "pr" v-model = "lista.preco" placeholder="Digite o valor R$"> <button v-on:click = "cadastrar()" style="background-color: rgb(, 13, 25) ; font-weight: 600; color: Green; border:solid" >CADASTRAR</button></p>
+
+    
+
+       <table class="tabela"  >
+          <thead>
+               <tr >
+                   <th class="col" >#</th>
+                   <th class="col" >NOME</th>
+                   <th class="col">QUANTIDADE</th>
+                   <th class="col" >PREÇO</th>
+                   <th class="col" >TOTAL&nbsp;R$ {{total}}</th>               
+                   <th class="col" >AÇÂO</th>
+                  
+               </tr>
+
+              
+           </thead> 
+            
+               <tbody>
+                   <tr v-for ="item in itens">
+                       <th class="col">{{item.id}}</th>
+                       <td >{{item.nome}}</td>
+                       <td>{{item.quantidade}}</td>
+                       <td>{{item.preco}}</td>
+                       <td> &nbsp;</td>
+                       
+                       
+
+                       <td>
+                           <button v-on:click = 'editar(item)' style="background-color: rgb(130, 131, 130); font-weight: 600; color: white; border:solid" >EDITAR</button>
+                           <button v-on:click = 'remover(item)' style="background-color: rgb(247, 149, 1); font-weight: 600; color: white; border: solid;" >REMOVER</button>
+
+                        </td>
+
+                   </tr>
+                    
+                  
+               </tbody>
+            
+       </table>
+
+       <button v-on:click = 'excluir(itens)' style="background-color: rgb(24, 78, 10); font-weight: 600; color: black; border:solid" >Apagar Tudo</button>
+
+
+</div>
+   
+
+ <script>
+     new Vue({
+         el: '#lista',
+          data: {
+              message: "CARRINHO DE COMPRAS",
+             
+              
+              
+
+              lista: {
+                  id: 0,
+                  nome: null,
+                  quantidade: null,
+                  preco: null,
+                  total: null
+                
+              },
+            
+            
+
+              index: null,
+              itens: [],
+             
+             
+                          
+
+          },
+          mounted(){
+            const lista = JSON.parse(localStorage.getItem('lista'))
+            this.itens = lista ? lista : []
+          },
+          computed: {
+          total(p) {
+            
+             return this.itens.reduce((t,p) => t + p.quantidade * p.preco,0)
+            
+    }
+  },
+
+
+
+          methods: {
+           
+              cadastrar () {
+                if(this.lista.nome== length[null] || this.lista.quantidade == 0 ||  this.lista.preco == 0){
+
+                    window.alert(`[ERRO]! Preencha todos os campos com valores coerente!`)
+                 }else{              
+                if(this.lista.id === 0){
+                    this.lista.id = this.itens.length +1
+                    this.itens.push(this.lista)
+                } else{
+                    this.itens[this.index] = this.lista                                       
+                 
+                }               
+                localStorage.setItem(('lista'),JSON.stringify(this.itens))
+                this.lista = {id: 0, nome: null, quantidade: null, preco: null, total: null}
+                
+
+                }
+
+              
+               
+            },
+                remover(item) {
+            
+                const idx = this.itens.indexOf(item)
+                this.itens.splice(idx,1)
+                localStorage.setItem('lista', JSON.stringify(this.itens))
+            },
+            editar(item){
+                this.index = this.itens.indexOf(item)
+                this.lista = Object.assign({}, item)
+                localStorage.setItem('lista', JSON.stringify(this.itens))
+
+            },
+            excluir(item){
+                const idx = this.itens.indexOf(item)
+                this.itens.splice(lista)
+                localStorage.setItem('lista', JSON.stringify(this.itens))
+
+
+            },
+        }
+    
+       })
+      
+</script>
+   
+</body>
+</html>
